@@ -54,8 +54,22 @@ int main(int argc, char **argv) {
   int clinet_socket = accept(server_fd, (struct sockaddr *) &client_addr, (socklen_t *) &client_addr_len);
   std::cout << "Client connected\n";
   
-  std::string request_buffer = "HTTP/1.1 200 OK\r\n\r\n";
+  std::string request; 
+  recv(clinet_socket, request.data(), request.size(), 0);
+  std::istringstream stream(request);
+  std::string method, path, version;
+  stream >> method >> path >> version;
 
+  std::string response_buffer
+
+  if (method == "GET" && path == "/") 
+  {
+    response_buffer = "HTTP/1.1 200 OK\r\n\r\n"; 
+  } else 
+  {
+    response_buffer = "HTTP/1.1 404 Not Found\r\n\r\n";
+  }
+  
   send(clinet_socket, request_buffer.data(), request_buffer.size(), 0);
 
   close(server_fd);
